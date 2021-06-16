@@ -69,12 +69,7 @@ def jacobi(ain,tol = 1.0e-9): # Jacobi method
         rotate(a,p,k,l)
     
 
-xx=np.linalg.solve(a, b)
 
-ev,U=jacobi(a)
-x=[0]*n
-print('Теперь известные элементы: ')
-for i in range (n):
-        x[i]=b[i]/U[i][i]
-print(U)
-print(xx)
+
+print(jacobi(a))
+print(np.linalg.eigh(a))
