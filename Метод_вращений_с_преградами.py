@@ -16,9 +16,9 @@ a=np.array(a)
 b=[3, 5, 3]
 n=len(b)
 
-def jacobi(ain,tol = 1.0e-9): # Jacobi method
+def jacobi(ain,tol = 1.0e-9): 
  
-    def maxElem(a): # Find largest off-diag. element a[k,l]
+    def maxElem(a): # поиск самого большого не диагонального элемента a[k,l]
         n = len(a)
         aMax = 0.0
         for i in range(n-1):
@@ -28,7 +28,7 @@ def jacobi(ain,tol = 1.0e-9): # Jacobi method
                     k = i; l = j
         return aMax,k,l
  
-    def rotate(a,p,k,l): # Rotate to make a[k,l] = 0
+    def rotate(a, k,l): # ротрация чтобы a[k,l] = 0
         n = len(a)
         aDiff = a[l,l] - a[k,k]
         if abs(a[k,l]) < abs(aDiff)*1.0e-36: t = a[k,l]/aDiff
@@ -54,19 +54,16 @@ def jacobi(ain,tol = 1.0e-9): # Jacobi method
             temp = a[k,i]
             a[k,i] = temp - s*(a[l,i] + tau*temp)
             a[l,i] = a[l,i] + s*(temp - tau*a[l,i])
-        for i in range(n):      # Update transformation matrix
-            temp = p[i,k]
-            p[i,k] = temp - s*(p[i,l] + tau*p[i,k])
-            p[i,l] = p[i,l] + s*(temp - tau*p[i,l])
+      
  
     a=np.copy(ain)
     n = len(a)
     maxRot = 5*(n**2)       # Set limit on number of rotations
-    p = identity(n)*1.0     # Initialize transformation matrix
+                            # Initialize transformation matrix
     for i in range(maxRot): # Jacobi rotation loop 
         aMax,k,l = maxElem(a)
-        if aMax < tol: return diagonal(a),p
-        rotate(a,p,k,l)
+        if aMax < tol: return diagonal(a)
+        rotate(a,k,l)
     
 
 
